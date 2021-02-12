@@ -7,29 +7,46 @@ from tkinter import *
 import tkinter.messagebox
 import json 
 
+def writeToFileResults(res):
+        with open(dirPath+'/results.txt', 'a+') as myfile:
+            nmap = nmap3.Nmap()
+            myfile.write(str(res) + "\n")
+
+            tkinter.messagebox.showinfo('Successful scan!','The scan results have successfully been saved to '+ dirPath +"/results.txt")
+
 def scan_nmap():
-    # cmdFlags = ""
-    # if(var1.get() == 1):
-    #     cmdFlags += "--top-port "
-    # if(var2.get() == 1):
-    #     cmdFlags += "-sL "
-    # if(var3.get() == 1):
-    #     cmdFlags += "-o "
-    # if(var4.get() == 1):
-    #     cmdFlags += "-A "
-    # if(var5.get() == 1):
-    #     cmdFlags += "-sV "
+    cmdFlags = ""
+    if(var1.get() == 1):
+        cmdFlags += "--top-ports 100"
+    if(var2.get() == 1):
+        cmdFlags += "-sL "
+    if(var3.get() == 1):
+        cmdFlags += "-O "
+    if(var4.get() == 1):
+        cmdFlags += "-A "
+    if(var5.get() == 1):
+        cmdFlags += "-sV "
 
-    with open(dirPath+'/results.txt', 'a+') as myfile:
-        nmap = nmap3.Nmap()
-        results = nmap.nmap_version_detection(domain.get())
-        myfile.write(str(results) + "\n")
+    if (var8.get() == 2):
+        results = tcp_scan(domain.get(),cmdFlags)
+        writeToFileResults(results)
 
+    elif (var8.get() == 3):    
+        os_results = nmap.nmap_os_detection(domain.get()) 
+        writeToFileResults(os_results)
 
-    tkinter.messagebox.showinfo('Successful scan!','The scan results have successfully been saved to '+ dirPath +"/results.txt")
+    elif (var8.get() == 4):
+        results = tcp_scan(domain.get(),cmdFlags)
+        writeToFileResults(results)
 
-
-
+    elif (var8.get() == 5):
+        results = tcp_scan(domain.get(),cmdFlags)
+        writeToFileResults(results)
+    
+    elif (var8.get() == 6):
+        results = tcp_scan(domain.get(),cmdFlags)
+        writeToFileResults(results)
+    
 
 ws = Tk()
 ws.resizable(False, False)
@@ -43,19 +60,23 @@ def browse_button():
     filename = filedialog.askdirectory()
     global dirPath
     dirPath = filename
+    if dirPath != "":
+        browseBtn.configure(text="Path already chosen")
     
 
 def scan():                                                  #funksioni qe thirret kur klikohet butoni 
     if (validators.url(domain.get()) or validators.ipv4(domain.get())) and dirPath != "":
         scan_nmap()
+    else:
+        tkinter.messagebox.showinfo('ERROR!','Please fill the fields properly!')
+
+
+
+def tcp_scan(target,flags=""):
+    nmap = nmap3.NmapScanTechniques()
+    return nmap.nmap_tcp_scan(target=target,args=flags)
+
     
-    
-        
-
-        
-
-
-
 
 Label(ws, text="Enter Domain:").place(x=90, y=20)
 domain =Entry(ws)
