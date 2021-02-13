@@ -8,11 +8,17 @@ import tkinter.messagebox
 import json 
 
 def writeToFileResults(res):
-        with open(dirPath+'/results.txt', 'a+') as myfile:
+        filename = ""
+        if variable.get() == "json": 
+            filename = "/results.json"
+            res = json.dumps(res)
+        else:
+            filename = "/results.txt"
+            res = str(res)
+        with open(dirPath+filename, 'w+') as myfile:
             nmap = nmap3.Nmap()
-            myfile.write(str(res) + "\n")
-
-            tkinter.messagebox.showinfo('Successful scan!','The scan results have successfully been saved to '+ dirPath +"/results.txt")
+            myfile.write(res+ "\n")
+            tkinter.messagebox.showinfo('Successful scan!','The scan results have successfully been saved to '+ dirPath +filename)
 
 def scan_nmap():
     cmdFlags = ""
@@ -27,25 +33,36 @@ def scan_nmap():
     if(var5.get() == 1):
         cmdFlags += "-sV "
 
-    if (var8.get() == 2):
-        results = tcp_scan(domain.get(),cmdFlags)
-        writeToFileResults(results)
+    if (var8.get() == 5):
+        nmap = nmap3.NmapScanTechniques()
+        result = nmap.nmap_tcp_scan("51.254.123.235",args=cmdFlags)
+        writeToFileResults(result)
 
-    elif (var8.get() == 3):    
-        os_results = nmap.nmap_os_detection(domain.get()) 
-        writeToFileResults(os_results)
+    if (var8.get() == 6):
+        nmap = nmap3.NmapScanTechniques()
+        result = nmap.nmap_tcp_scan("51.254.123.235")
+        writeToFileResults(result)
 
-    elif (var8.get() == 4):
-        results = tcp_scan(domain.get(),cmdFlags)
-        writeToFileResults(results)
+    # if (var8.get() == 2):
+    #     results = tcp_scan(domain.get(),cmdFlags)
+    #     writeToFileResults(results)
 
-    elif (var8.get() == 5):
-        results = tcp_scan(domain.get(),cmdFlags)
-        writeToFileResults(results)
+    # elif (var8.get() == 3):    
+    #     nmap = nmap3.Nmap()
+    #     os_results = nmap.nmap_os_detection(domain.get()) 
+    #     writeToFileResults(os_results)
+
+    # elif (var8.get() == 4):
+    #     results = tcp_scan(domain.get(),cmdFlags)
+    #     writeToFileResults(results)
+
+    # elif (var8.get() == 5):
+    #     results = tcp_scan(domain.get(),cmdFlags)
+    #     writeToFileResults(results)
     
-    elif (var8.get() == 6):
-        results = tcp_scan(domain.get(),cmdFlags)
-        writeToFileResults(results)
+    # elif (var8.get() == 6):
+    #     results = tcp_scan(domain.get(),cmdFlags)
+    #     writeToFileResults(results)
     
 
 ws = Tk()
@@ -61,14 +78,14 @@ def browse_button():
     global dirPath
     dirPath = filename
     if dirPath != "":
-        browseBtn.configure(text="Path already chosen")
+        browseBtn.configure(text="Chosen path")
     
 
 def scan():                                                  #funksioni qe thirret kur klikohet butoni 
-    if (validators.url(domain.get()) or validators.ipv4(domain.get())) and dirPath != "":
+    # if (validators.url(domain.get()) or validators.ipv4(domain.get())) and dirPath != "":
         scan_nmap()
-    else:
-        tkinter.messagebox.showinfo('ERROR!','Please fill the fields properly!')
+    # else:
+    #     tkinter.messagebox.showinfo('ERROR!','Please fill the fields properly!')
 
 
 
@@ -105,26 +122,33 @@ Checkbutton(comm, text="Version Detection", variable=var5, onvalue=1).pack()
 
 
 var8 = IntVar()
-Radiobutton(techn, text="Fin Scan", variable=var8, value=1).pack()
 Radiobutton(techn, text="Idle Scan", variable=var8, value=2).pack()
 Radiobutton(techn, text="Ping Scan", variable=var8, value=3).pack()
 Radiobutton(techn, text="SYN Scan", variable=var8, value=4).pack()
 Radiobutton(techn, text="TCP Scan", variable=var8, value=5).pack()
 Radiobutton(techn, text="UDP Scan", variable=var8, value=6).pack()
+var8.set(value=5)
 
 
 
-
-Label(ws, text="Save the results at:").place(x=110, y=250)
+Label(ws, text="Save the results at:").place(x=50, y=250)
 browseBtn = Button(text="Browse folder", command=browse_button)
-browseBtn.place(x=230, y=250)
+browseBtn.place(x=169, y=250)
 
 submitBtn = Button(ws, text="Scan", command=scan, width=15, height=2)           #butoni   
-submitBtn.place(x=145, y=280)  
+submitBtn.place(x=145, y=285)  
+
+
+variable = StringVar(ws)
+variable.set("json") # default value
+
+w = OptionMenu(ws, variable, "json", "plain text")
+
+w.place(x=260,y=248)
 
 
 labelFile = Label(ws)
-labelFile.place(x=30, y=280)
+labelFile.place(x=30, y=250)
 path= Entry(ws)
 
 
