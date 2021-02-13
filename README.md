@@ -3,7 +3,7 @@
 ## Pershkrimi i projektit
 
 Ky program paraqet nje GUI aplikacion permes te cilit kryejme skenime me veglen Nmap. Programi eshte i shkruar ne gjuhen **Python**, ndersa GUI eshte realizuar me librarine **Tkinter**.
-![Fotoja pershkrues e GUI-te](/foto\foto_1.PNG "GUI aplikacioni")
+![](foto/foto_1.PNG)
 
 ## Parakushtet
 
