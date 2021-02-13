@@ -6,9 +6,6 @@ __pycache__/
 # C extensions
 *.so
 
-# FOTO
-foto/
-
 # Distribution / packaging
 .Python
 build/
