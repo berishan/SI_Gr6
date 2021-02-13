@@ -3,7 +3,6 @@ from tkinter import filedialog
 from tkinter import Radiobutton
 import validators
 import nmap3
-from tkinter import *
 import tkinter.messagebox
 import json 
 
@@ -20,19 +19,23 @@ def writeToFileResults(res):
             myfile.write(res+ "\n")
             tkinter.messagebox.showinfo('Successful scan!','The scan results have successfully been saved to '+ dirPath +filename)
 
-def scan_nmap():
-    cmdFlags = ""
-    if(var1.get() == 1):
-        cmdFlags += "--top-ports 100"
-    if(var2.get() == 1):
-        cmdFlags += "-sL "
-    if(var3.get() == 1):
-        cmdFlags += "-O "
-    if(var4.get() == 1):
-        cmdFlags += "-A "
-    if(var5.get() == 1):
-        cmdFlags += "-sV "
+def cmd_flag():
+        cmdFlags = ""
+        if(var1.get() == 1):
+            cmdFlags += "--top-ports 100"
+        if(var2.get() == 1):
+            cmdFlags += "-sL "
+        if(var3.get() == 1):
+            cmdFlags += "-O "
+        if(var4.get() == 1):
+            cmdFlags += "-A "
+        if(var5.get() == 1):
+            cmdFlags += "-sV "
+        return cmdFlags
 
+def scan_nmap():
+ 
+    cmdFlags = cmd_flag()
     nmap = nmap3.NmapScanTechniques()
     if (var8.get() == 2):
         result = nmap.nmap_idle_scan(domain.get(),args=cmdFlags)
@@ -74,10 +77,18 @@ def browse_button():
     
 
 def scan():                                                  #funksioni qe thirret kur klikohet butoni 
-    # if (validators.url(domain.get()) or validators.ipv4(domain.get())) and dirPath != "":
+     if (validators.url(domain.get()) or validators.ipv4(domain.get())) and dirPath != "":
         scan_nmap()
-    # else:
-    #     tkinter.messagebox.showinfo('ERROR!','Please fill the fields properly!')
+        domain.delete(0, 'end') 
+        var1.set(0)
+        var2.set(0)
+        var3.set(0)
+        var4.set(0)
+        var5.set(0)
+        var8.set(5)
+        browseBtn.configure(text="Browse folder")
+     else:
+         tkinter.messagebox.showinfo('ERROR!','Please fill the fields properly!')
 
 
 
@@ -138,13 +149,6 @@ w.place(x=260,y=216)
 
 submitBtn = Button(ws, text="Scan", command=scan, width=15, height=2)           #butoni   
 submitBtn.place(x=145, y=265)  
-
-
-
-labelFile = Label(ws)
-labelFile.place(x=30, y=250)
-path= Entry(ws)
-
 
 
 ws.mainloop()
