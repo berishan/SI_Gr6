@@ -15,7 +15,7 @@ def writeToFileResults(res):
         else:
             filename = "/results.txt"
             res = str(res)
-        with open(dirPath+filename, 'w+') as myfile:
+        with open(dirPath+filename, 'a+') as myfile:
             nmap = nmap3.Nmap()
             myfile.write(res+ "\n")
             tkinter.messagebox.showinfo('Successful scan!','The scan results have successfully been saved to '+ dirPath +filename)
@@ -33,36 +33,28 @@ def scan_nmap():
     if(var5.get() == 1):
         cmdFlags += "-sV "
 
-    if (var8.get() == 5):
-        nmap = nmap3.NmapScanTechniques()
-        result = nmap.nmap_tcp_scan("51.254.123.235",args=cmdFlags)
+    nmap = nmap3.NmapScanTechniques()
+    if (var8.get() == 2):
+        result = nmap.nmap_idle_scan(domain.get(),args=cmdFlags)
         writeToFileResults(result)
 
-    if (var8.get() == 6):
-        nmap = nmap3.NmapScanTechniques()
-        result = nmap.nmap_tcp_scan("51.254.123.235")
+    elif (var8.get() == 3):
+        result = nmap.nmap_ping_scan(domain.get(),args=cmdFlags)
         writeToFileResults(result)
 
-    # if (var8.get() == 2):
-    #     results = tcp_scan(domain.get(),cmdFlags)
-    #     writeToFileResults(results)
+    elif (var8.get() == 4):
+        result = nmap.nmap_syn_scan(domain.get(),args=cmdFlags)
+        writeToFileResults(result)
 
-    # elif (var8.get() == 3):    
-    #     nmap = nmap3.Nmap()
-    #     os_results = nmap.nmap_os_detection(domain.get()) 
-    #     writeToFileResults(os_results)
+    elif (var8.get() == 5):
+      
+        result = nmap.nmap_tcp_scan(domain.get(),args=cmdFlags)
+        writeToFileResults(result)
 
-    # elif (var8.get() == 4):
-    #     results = tcp_scan(domain.get(),cmdFlags)
-    #     writeToFileResults(results)
-
-    # elif (var8.get() == 5):
-    #     results = tcp_scan(domain.get(),cmdFlags)
-    #     writeToFileResults(results)
-    
-    # elif (var8.get() == 6):
-    #     results = tcp_scan(domain.get(),cmdFlags)
-    #     writeToFileResults(results)
+    elif (var8.get() == 6):
+        nmap = nmap3.NmapScanTechniques()
+        result = nmap.nmap_tcp_scan(domain.get(), args=cmdFlags)
+        writeToFileResults(result)
     
 
 ws = Tk()
@@ -131,20 +123,24 @@ var8.set(value=5)
 
 
 
-Label(ws, text="Save the results at:").place(x=50, y=250)
+Label(ws, text="Save the results at:").place(x=50, y=220)
 browseBtn = Button(text="Browse folder", command=browse_button)
-browseBtn.place(x=169, y=250)
-
-submitBtn = Button(ws, text="Scan", command=scan, width=15, height=2)           #butoni   
-submitBtn.place(x=145, y=285)  
-
+browseBtn.place(x=169, y=220)
 
 variable = StringVar(ws)
 variable.set("json") # default value
 
 w = OptionMenu(ws, variable, "json", "plain text")
 
-w.place(x=260,y=248)
+w.place(x=260,y=216)
+
+
+
+submitBtn = Button(ws, text="Scan", command=scan, width=15, height=2)           #butoni   
+submitBtn.place(x=145, y=265)  
+
+
+
 
 
 labelFile = Label(ws)
