@@ -1,6 +1,29 @@
 # SI_Gr6
-Per zhvillimin e GUI-t te ketij aplikacioni eshte perdore Tkinter-native toolset qe eshte GUI standard i gjuhes programuese Python. 
-Kurse per funksionalitetin e aplikacionit jane perdore librarite e Python 3, te cilat mund t'i gjejme ne pypi.org, dhe ti instalojme, perdorim me ane te komandave:
-    pip install *emri i librarise* 
-    Ne kete rast libraria ne te cilen eshte e bazuar aplikacioni eshte python3-nmap, librari e cila ndihmon ne perdorimin e vegles Nmap, qe ben skanimin e porteve. Me ane te saj cdo komande e Nmap definohet si funksion/metode ne Python, gje qe ben shume me te lehte perdorimin e komandave Nmap ne skripta me te sofistikuara. Tek vegla Nmap disa nga komandat kerkojne root privilegje, si: detektimi i sistemit operativ i nje hosti; e njejta gje vlen edhe per skriptat qe perdorin python3-nmap, duhet te jesh root qe te besh run identifikuesin e sistemit operativ.
-    Kjo vegel funksionon si ne Windows ashtu dhe Linux, me nje ndryshim te vogel ne sintaksen e komandave gjate instalimit te librarive.
+
+## Pershkrimi i projektit
+
+Ky program paraqet nje GUI aplikacion permes te cilit kryejme skenime me veglen Nmap. Programi eshte i shkruar ne gjuhen **Python**, ndersa GUI eshte realizuar me librarine **Tkinter**.
+![Fotoja pershkrues e GUI-te](/foto\foto_1.PNG "GUI aplikacioni")
+
+## Parakushtet
+
+Parakusht qe aplikacioni te funksionoje eshte qe paraprakisht te jete instaluar vegla Nmap.
+Ne program, pervec built-in librarive, kemi perdorur edhe librari te tjera ndihmese te cilat jane te listuara tek fajlli **requirements.txt**. 
+Librarite e perdorura i instalojme me ane te komandes:
+``` 
+$ pip install -r requirements.txt
+```
+
+## Perdorimi dhe ekzekutimi i programit
+
+Programi ekzekutohet permes komandes:
+``` 
+$ python3 nmap.py
+```
+Perdoruesit i ipet mundesia qe ta shkruaje nje URL/IPV4 valide e cila validohet nga funksionet perkatese. Pas kesaj, perdouresi zgjedh tekniken e skenimit(by default TCP scan), komandat shtese te listuara ne anen e majte dhe ne fund direktoriumin ku deshiron t'i ruaje rezultatet, te cilat mund te ruhen si *txt* apo *JSON file*. Ne folderin e dhene gjenerohet nje file me emrin results.extension ne te cilin ruhen te gjitha skenimet. 
+
+Testimet ekzekutohen permes komandes:
+``` 
+$ python3 test_nmap.py
+```
+Per shkak se programi jone nuk eshte aq kompleks dhe nuk permban nje numer te madh te field-ave, numri i testeve te kryera eshte relativisht i vogel, mirepo te gjitha fushat dhe elementet tjera jane te validuara.
