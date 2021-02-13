@@ -141,8 +141,6 @@ submitBtn.place(x=145, y=265)
 
 
 
-
-
 labelFile = Label(ws)
 labelFile.place(x=30, y=250)
 path= Entry(ws)
